@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { BoxForm, FieldForm } from './ContactForm.styled';
+import { BoxForm, FieldForm, InputForm, BtnForm } from './ContactForm.styled';
     
 export class ContactForm extends Component {
     state = {
@@ -21,7 +21,8 @@ export class ContactForm extends Component {
         console.log(this.state);
 
         // Проп который передается форме для вызова при сабмите
-        this.props.onSubmit({ ...this.state });
+        const { name, number } = this.state;
+        this.props.onSubmit(name, number);
 
         this.reset();
     };
@@ -37,7 +38,7 @@ export class ContactForm extends Component {
         return (
             <BoxForm onSubmit={this.handleSubmit}>
                 <FieldForm htmlFor={nameId}>Name
-                    <input
+                    <InputForm
                         type="text"
                         name="name"
                         value={this.state.name}
@@ -49,7 +50,7 @@ export class ContactForm extends Component {
                     /> 
                 </FieldForm>
                 <FieldForm htmlFor={numberId}>Number
-                    <input
+                    <InputForm
                         type="tel"
                         name="number"
                         value={this.state.number}
@@ -61,7 +62,7 @@ export class ContactForm extends Component {
                     /> 
                 </FieldForm>    
             
-            <button type="submit">Add contact</button>        
+            <BtnForm type="submit">Add contact</BtnForm>        
         </BoxForm>
         
     );

@@ -1,43 +1,70 @@
 import React from "react";
 import { Global } from '@emotion/react' 
-import { GlobalStyles, Container } from "./App.styled";
+import { GlobalStyles, Container, TitlePhonebook, TitleContacts } from "./App.styled";
 import ContactForm from "./ContactForm/ContactForm";
 import { ContactlList } from "./ContactList/ContactList";
+import { nanoid } from 'nanoid';
+import { Filter } from "./Filter/Filter";
 
 class Phonebook extends React.Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: ''
+  };
+
+  addContact = (name, number) => {
+    const contact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+
+    this.setState(({ contacts }) => ({
+      contacts: [contact, ...contacts],
+    }));
   };
 
   deleteContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }))
+
+    this.resetFilter();
   }
-  
-  formSubmitHandler = data => {
-    console.log(data);
+
+  changeFilter = (e) => {
+    this.setState({ filter: e.currentTarget.value })
   }
+
+  resetFilter = () => {
+    this.setState({ filter: '' });
+    }
+
+  getVisibleContacts = () => {
+    const { filter, contacts } = this.state;
+
+    const normalizedFilter = filter.toLocaleLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLocaleLowerCase().includes(normalizedFilter)
+    );
+  }
+    
   
   render() {
-    const { contacts } = this.state;
+    const { filter } = this.state;
+
+    const visibleContacts = this.getVisibleContacts();
 
     return (
       <Container>
         <Global styles={GlobalStyles} />
-        <h1>Phonebook</h1>
-        
-        <ContactForm onSubmit={this.formSubmitHandler} />
+        <TitlePhonebook>Phonebook</TitlePhonebook>
+        <ContactForm onSubmit={this.addContact} />
 
-        <h2>Contacts</h2>
-        {/* <Filter /> */}
-        <ContactlList contacts={contacts} onDeleteContact={this.deleteContact} />
+        <TitleContacts>Contacts</TitleContacts>
+        <Filter filter={filter} onChange={this.changeFilter} />
+        <ContactlList contacts={visibleContacts} onDeleteContact={this.deleteContact} />
       </Container>
     );
   }

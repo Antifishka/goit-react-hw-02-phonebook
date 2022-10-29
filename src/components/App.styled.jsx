@@ -47,3 +47,11 @@ align-items: center;
 font-size: 24px;
 color: #010101;
 `;
+
+export const TitlePhonebook = styled.h1`
+margin-bottom: 20px;
+`;
+
+export const TitleContacts = styled.h2`
+margin-bottom: 20px;
+`;
