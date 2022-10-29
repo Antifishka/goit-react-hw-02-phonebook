@@ -19,9 +19,22 @@ class Phonebook extends React.Component {
       number,
     };
 
+    const { contacts } = this.state;
+
+    const normalizedName = name.toLocaleLowerCase();
+
+    const checkByName = contacts.find(contact =>
+      contact.name.toLocaleLowerCase() === normalizedName);
+
+    if (checkByName) {
+      return alert(`${name} is already in contacts`);
+    };  
+
     this.setState(({ contacts }) => ({
       contacts: [contact, ...contacts],
     }));
+
+    console.log(contacts);
   };
 
   deleteContact = contactId => {
@@ -50,7 +63,6 @@ class Phonebook extends React.Component {
     );
   }
     
-  
   render() {
     const { filter } = this.state;
 

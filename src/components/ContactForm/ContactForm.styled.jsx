@@ -7,13 +7,10 @@ export const BoxForm = styled.form`
     align-items: flex-start;
     gap: 20px;
 
-    box-sizing: border-box;
     border: 1px solid #010101;
     width: 280px;
     padding: 10px;
     margin-bottom: 30px;
-
-    font-size: 16px;
 `;
 
 export const FieldForm = styled.label`
@@ -31,12 +28,15 @@ export const InputForm = styled.input`
 export const BtnForm = styled.button`
     border: 1px solid #c9c5c5;
     border-radius: 4px;
-    background-color: #fff;
     box-shadow: 1px 2px 2px 0 rgb(0 0 0 / 0.5);
+    outline: none;
+    cursor: pointer;
+    background-color: #fff;
 
-    transition: background-color 250ms linear;
+    transition: background-color border 250ms linear;
 
-    &:active{
+    :active{
         background-color: blue;
+        border: none;
     }
 `;
